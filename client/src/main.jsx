@@ -1,13 +1,18 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import CreateProduct from "./routes/CreateProduct"
 import Home from "./routes/Home"
+import Product from "./routes/Product"
+import CreateProduct from "./routes/CreateProduct"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/product/:productId",
+    element: <Product />,
   },
   {
     path: "/product/create",
