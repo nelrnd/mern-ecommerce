@@ -12,7 +12,8 @@ const mongoDb = process.env.MONGODB_URI
 const main = async () => mongoose.connect(mongoDb)
 main().catch((err) => console.error(err))
 
-app.get("/", (req, res) => res.send("Hello World!"))
+const productRouter = require("./routes/product")
+app.use("/product", productRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
