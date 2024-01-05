@@ -6,10 +6,10 @@ Router.get("/", productController.product_list)
 
 Router.post("/", productController.product_create)
 
-Router.get("/:productId", productController.product_detail)
+Router.get("/:productSlug", productController.product_detail)
 
-Router.put("/:productId", productController.product_update)
+Router.put("/:productSlug", productController.product_update)
 
-Router.delete("/:productId", productController.product_delete)
+Router.delete("/:productSlug", productController.product_delete)
 
 module.exports = Router

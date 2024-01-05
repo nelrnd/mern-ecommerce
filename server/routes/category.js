@@ -6,10 +6,10 @@ Router.get("/", categoryController.category_list)
 
 Router.post("/", categoryController.category_create)
 
-Router.get("/:categoryId", categoryController.category_detail)
+Router.get("/:categorySlug", categoryController.category_detail)
 
-Router.put("/:categoryId", categoryController.category_update)
+Router.put("/:categorySlug", categoryController.category_update)
 
-Router.delete("/:categoryId", categoryController.category_delete)
+Router.delete("/:categorySlug", categoryController.category_delete)
 
 module.exports = Router

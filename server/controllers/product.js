@@ -14,8 +14,8 @@ exports.product_list = asyncHandler(async (req, res) => {
 })
 
 exports.product_detail = asyncHandler(async (req, res) => {
-  const { productId } = req.params
-  const product = await Product.findById(productId)
+  const { productSlug } = req.params
+  const product = await Product.findOne({ slug: productSlug })
     .populate("categories")
     .exec()
   if (product === null) {
@@ -25,10 +25,10 @@ exports.product_detail = asyncHandler(async (req, res) => {
 })
 
 exports.product_update = asyncHandler(async (req, res) => {
-  const { productId } = req.params
+  const { productSlug } = req.params
   const { name, desc, price, categories } = req.body
-  const updatedProduct = await Product.findByIdAndUpdate(
-    productId,
+  const updatedProduct = await Product.findOneAndUpdate(
+    { slug: productSlug },
     { name, desc, price, categories },
     { new: true }
   )
@@ -39,8 +39,8 @@ exports.product_update = asyncHandler(async (req, res) => {
 })
 
 exports.product_delete = asyncHandler(async (req, res) => {
-  const { productId } = req.params
-  const deletedProduct = await Product.findByIdAndDelete(productId)
+  const { productSlug } = req.params
+  const deletedProduct = await Product.findOneAndDelete({ slug: productSlug })
   if (deletedProduct === null) {
     return res.status(404).json({ error: "Product not found" })
   }
