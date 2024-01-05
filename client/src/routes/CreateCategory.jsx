@@ -1,30 +1,25 @@
 import { useState } from "react"
 
-function CreateProduct() {
+function CreateCategory() {
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
-  const [price, setPrice] = useState(0)
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (!name || !desc) return
+    if (!name) return
     const data = {}
     if (name) data.name = name
     if (desc) data.desc = desc
-    if (price) data.price = price
-    fetch("http://localhost:3000/product/", {
+    fetch("http://localhost:3000/category/", {
       method: "POST",
       mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((data) => {
         setName("")
         setDesc("")
-        setPrice(0)
         console.log(data)
       })
       .catch((err) => console.error(err))
@@ -32,7 +27,7 @@ function CreateProduct() {
 
   return (
     <>
-      <h1>Create new product</h1>
+      <h1>Create new category</h1>
       <form onSubmit={handleSubmit}>
         <label>
           <span>Name</span>
@@ -44,21 +39,12 @@ function CreateProduct() {
           />
         </label>
         <label>
-          <span>Price (in $)</span>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            min="0"
-          />
-        </label>
-        <label>
           <span>Description</span>
           <textarea
             name="desc"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
-          ></textarea>
+          />
         </label>
         <button>Publish</button>
       </form>
@@ -66,4 +52,4 @@ function CreateProduct() {
   )
 }
 
-export default CreateProduct
+export default CreateCategory
