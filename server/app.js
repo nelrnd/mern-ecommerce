@@ -13,7 +13,9 @@ const main = async () => mongoose.connect(mongoDb)
 main().catch((err) => console.error(err))
 
 const productRouter = require("./routes/product")
+const categoryRouter = require("./routes/category")
 app.use("/product", productRouter)
+app.use("/category", categoryRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
