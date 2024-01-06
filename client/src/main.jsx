@@ -5,6 +5,7 @@ import Home from "./routes/Home"
 import Product from "./routes/Product"
 import CreateProduct from "./routes/CreateProduct"
 import CreateCategory from "./routes/CreateCategory"
+import "./index.css"
 
 const router = createBrowserRouter([
   {
