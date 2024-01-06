@@ -4,27 +4,28 @@ function CreateProduct() {
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
   const [price, setPrice] = useState(0)
+  const [image, setImage] = useState(null)
 
   const handleSubmit = (event) => {
     event.preventDefault()
     if (!name || !desc) return
-    const data = {}
-    if (name) data.name = name
-    if (desc) data.desc = desc
-    if (price) data.price = price
-    fetch("http://localhost:3000/product/", {
+
+    const formData = new FormData()
+    formData.append("name", name)
+    formData.append("desc", desc)
+    formData.append("price", price)
+    formData.append("image", image)
+
+    fetch("http://localhost:3000/product", {
       method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
         setName("")
         setDesc("")
         setPrice(0)
+        setImage(null)
         console.log(data)
       })
       .catch((err) => console.error(err))
@@ -33,7 +34,7 @@ function CreateProduct() {
   return (
     <>
       <h1>Create new product</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <label>
           <span>Name</span>
           <input
@@ -47,6 +48,7 @@ function CreateProduct() {
           <span>Price (in $)</span>
           <input
             type="number"
+            name="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             min="0"
@@ -59,6 +61,14 @@ function CreateProduct() {
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
           ></textarea>
+        </label>
+        <label>
+          <span>Image</span>
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
         </label>
         <button>Publish</button>
       </form>

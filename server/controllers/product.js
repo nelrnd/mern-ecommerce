@@ -1,12 +1,28 @@
 const Product = require("../models/product")
 const asyncHandler = require("express-async-handler")
+const multer = require("multer")
 
-exports.product_create = asyncHandler(async (req, res) => {
-  const { name, desc, price, categories } = req.body
-  const product = new Product({ name, desc, price, categories })
-  await product.save()
-  res.json(product)
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/")
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname)
+  },
 })
+
+const upload = multer({ storage: storage })
+
+exports.product_create = [
+  upload.single("image"),
+  asyncHandler(async (req, res) => {
+    const { name, desc, price, categories } = req.body
+    const image = req.file.path
+    const product = new Product({ name, desc, price, categories, image })
+    await product.save()
+    res.json(product)
+  }),
+]
 
 exports.product_list = asyncHandler(async (req, res) => {
   const list = await Product.find().populate("categories").exec()

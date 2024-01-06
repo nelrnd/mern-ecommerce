@@ -7,6 +7,7 @@ const productSchema = new Schema({
   slug: { type: String },
   desc: { type: String, length: { min: 3 } },
   price: { type: Number, required: true, min: 0 },
+  image: { type: String }, // image URL
   categories: {
     type: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     default: [],
