@@ -24,6 +24,29 @@ const NavBar = () => (
           </Link>
         </li>
       </ul>
+
+      <ul className="flex gap-3">
+        <li>
+          <Link to="/" className="p-3 text-slate-600 hover:text-black">
+            Search
+          </Link>
+        </li>
+        <li>
+          <Link to="/" className="p-3 text-slate-600 hover:text-black">
+            Account
+          </Link>
+        </li>
+        <li>
+          <Link to="/" className="p-3 text-slate-600 hover:text-black">
+            Favorites
+          </Link>
+        </li>
+        <li>
+          <Link to="/" className="p-3 text-slate-600 hover:text-black">
+            Cart
+          </Link>
+        </li>
+      </ul>
     </div>
   </nav>
 )
