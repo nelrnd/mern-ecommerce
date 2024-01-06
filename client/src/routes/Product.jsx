@@ -19,7 +19,7 @@ const Product = () => {
 
   return (
     <>
-      <div className="max-w-5xl m-auto p-4 py-8 grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8">
         <ProductImage image={product.image} name={product.name} />
 
         <div>

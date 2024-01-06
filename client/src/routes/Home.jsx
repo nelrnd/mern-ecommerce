@@ -30,9 +30,7 @@ const Home = () => {
 }
 
 const Grid = ({ children }) => (
-  <div className="max-w-5xl m-auto p-4 grid grid-cols-3 gap-4 gap-y-8">
-    {children}
-  </div>
+  <div className="grid grid-cols-3 gap-4 gap-y-8">{children}</div>
 )
 
 const ProductCard = ({ product }) => {
