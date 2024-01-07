@@ -7,6 +7,8 @@ import Product from "./routes/Product"
 import CreateProduct from "./routes/CreateProduct"
 import CreateCategory from "./routes/CreateCategory"
 import "./index.css"
+import Login from "./routes/Login"
+import Register from "./routes/Register"
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "/category/create",
         element: <CreateCategory />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },
