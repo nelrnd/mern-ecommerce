@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
+import logo from "../assets/seldo.svg"
 
 const NavBar = () => (
   <nav className="border-b border-slate-200 px-12">
     <div className="h-24 flex justify-between items-center">
-      <Link to="/">
-        <h3 className="font-bold text-2xl p-3 -m-3">MyBrand</h3>
+      <Link to="/" className="hover:opacity-75 p-3 -m-3">
+        <img src={logo} alt="Seldo" />
       </Link>
 
       <ul className="flex gap-3">
