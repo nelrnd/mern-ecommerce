@@ -17,8 +17,10 @@ main().catch((err) => console.error(err))
 
 const productRouter = require("./routes/product")
 const categoryRouter = require("./routes/category")
+const userRouter = require("./routes/user")
 app.use("/product", productRouter)
 app.use("/category", categoryRouter)
+app.use("/user", userRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
