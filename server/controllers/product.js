@@ -40,19 +40,23 @@ exports.product_detail = asyncHandler(async (req, res) => {
   res.json(product)
 })
 
-exports.product_update = asyncHandler(async (req, res) => {
-  const { productSlug } = req.params
-  const { name, desc, price, categories } = req.body
-  const updatedProduct = await Product.findOneAndUpdate(
-    { slug: productSlug },
-    { name, desc, price, categories },
-    { new: true }
-  )
-  if (updatedProduct === null) {
-    return res.status(404).json({ error: "Product not found" })
-  }
-  res.json(updatedProduct)
-})
+exports.product_update = [
+  upload.single("image"),
+  asyncHandler(async (req, res) => {
+    const { productSlug } = req.params
+    const { name, desc, price, categories } = req.body
+    const image = req.file ? req.file.path : undefined
+    const updatedProduct = await Product.findOneAndUpdate(
+      { slug: productSlug },
+      { name, desc, price, categories, image },
+      { new: true }
+    )
+    if (updatedProduct === null) {
+      return res.status(404).json({ error: "Product not found" })
+    }
+    res.json(updatedProduct)
+  }),
+]
 
 exports.product_delete = asyncHandler(async (req, res) => {
   const { productSlug } = req.params
