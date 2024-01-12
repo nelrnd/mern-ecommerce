@@ -1,12 +1,15 @@
 const API_BASE = import.meta.env.VITE_API_BASE
 
-const ProductImage = ({ image, name }) => (
-  <div className="aspect-square bg-slate-100 mb-2 rounded overflow-hidden">
-    {image ? (
+const ProductImage = ({ src, size }) => (
+  <div
+    className="aspect-square bg-slate-100 rounded overflow-hidden"
+    style={{ width: size ? size + "px" : "100%" }}
+  >
+    {src ? (
       <img
-        src={API_BASE + image}
-        alt={name}
-        className="w-full h-full object-cover"
+        src={API_BASE + "/" + src}
+        alt=""
+        className="block w-full h-full object-cover"
       />
     ) : (
       <div className="w-full h-full flex align-middle justify-center text-slate-300">

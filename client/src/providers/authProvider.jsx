@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
   }, [user])
 
   useEffect(() => {
-    if (user && !user.isAdmin) {
+    if (user && user.isAdmin === undefined) {
       setUser({ ...user, isAdmin: user.role === "admin" })
     }
   }, [user])

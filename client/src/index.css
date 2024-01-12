@@ -4,6 +4,22 @@
 
 @layer components {
   .btn-primary {
-    @apply block w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700;
+    @apply bg-blue-600 text-white  hover:bg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-600 hover:bg-gray-300;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 text-white  hover:bg-red-600;
+  }
+
+  .btn {
+    @apply block w-full px-6 py-3 font-semibold rounded;
+  }
+
+  .btn-small {
+    @apply text-sm font-normal px-3 py-1.5;
   }
 }
