@@ -1,16 +1,28 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import axios from "../axios"
 import FormControl from "../components/FormControl"
 
 const Register = () => {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+  const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log("Register")
+
+    setErrors({})
+
+    axios
+      .post("/auth/register", { full_name: fullName, email, password })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        if (err.response) {
+          const errors = err.response.data.errors
+          if (errors) setErrors(errors)
+        }
+      })
   }
 
   return (
@@ -21,15 +33,10 @@ const Register = () => {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <FormControl
-          label="First name"
-          value={firstName}
-          setValue={setFirstName}
-        />
-
-        <FormControl
-          label="Last name"
-          value={lastName}
-          setValue={setLastName}
+          label="Full Name"
+          value={fullName}
+          setValue={setFullName}
+          error={errors["full_name"]}
         />
 
         <FormControl
@@ -37,6 +44,7 @@ const Register = () => {
           label="Email"
           value={email}
           setValue={setEmail}
+          error={errors["email"]}
         />
 
         <FormControl
@@ -44,6 +52,7 @@ const Register = () => {
           label="Password"
           value={password}
           setValue={setPassword}
+          error={errors["password"]}
         />
 
         <button className="btn-primary mt-2">Register</button>

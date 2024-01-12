@@ -1,14 +1,35 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { PiWarningFill } from "react-icons/pi"
+import axios from "../axios"
 import FormControl from "../components/FormControl"
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log("Login")
+
+    setErrors({})
+
+    axios
+      .post("/auth/login", { email, password })
+      .then((res) => {
+        const user = res.data.user
+
+        if (user) {
+          console.log(user)
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          const errors = err.response.data.errors
+
+          if (errors) setErrors(errors)
+        }
+      })
   }
 
   return (
@@ -23,6 +44,7 @@ const Login = () => {
           label="Email"
           value={email}
           setValue={setEmail}
+          error={errors["email"]}
         />
 
         <FormControl
@@ -30,7 +52,15 @@ const Login = () => {
           label="Password"
           value={password}
           setValue={setPassword}
+          error={errors["password"]}
         />
+
+        {errors.global && (
+          <p className="mt-1 text-sm text-red-500 flex gap-1 items-center">
+            <PiWarningFill className="text-base" />
+            {errors.global}
+          </p>
+        )}
 
         <button className="btn-primary mt-2">Login</button>
       </form>
