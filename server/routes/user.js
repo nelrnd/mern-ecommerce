@@ -1,11 +1,10 @@
 const express = require("express")
 const Router = express.Router()
 const userController = require("../controllers/user")
+const { isAuth, isSameUserOrAdmin } = require("../controllers/auth")
 
-Router.post("/", userController.user_create)
+Router.put("/:userId", isAuth, isSameUserOrAdmin, userController.user_update)
 
-Router.put("/:userId", userController.user_update)
-
-Router.delete("/:userId", userController.user_delete)
+Router.delete("/:userId", isAuth, isSameUserOrAdmin, userController.user_delete)
 
 module.exports = Router

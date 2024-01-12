@@ -17,9 +17,11 @@ main().catch((err) => console.error(err))
 
 const productRouter = require("./routes/product")
 const categoryRouter = require("./routes/category")
+const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
 app.use("/product", productRouter)
 app.use("/category", categoryRouter)
+app.use("/auth", authRouter)
 app.use("/user", userRouter)
 
 const PORT = process.env.PORT || 3000

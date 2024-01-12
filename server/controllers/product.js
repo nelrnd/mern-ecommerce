@@ -16,9 +16,13 @@ const upload = multer({ storage: storage })
 exports.product_create = [
   upload.single("image"),
   asyncHandler(async (req, res) => {
-    const { name, desc, price, categories } = req.body
-    const image = req.file.path
-    const product = new Product({ name, desc, price, categories, image })
+    const product = new Product({
+      name: req.body.name,
+      desc: req.body.desc,
+      price: req.body.price,
+      categories: req.body.categories,
+      image: req.file ? req.file.path : null,
+    })
     await product.save()
     res.json(product)
   }),

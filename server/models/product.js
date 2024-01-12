@@ -21,7 +21,7 @@ const options = {
   remove: /[*+~.()'"!:@]/g,
 }
 
-productSchema.pre("save", async function (next) {
+productSchema.pre(["save", "updateOne"], async function (next) {
   let slug = slugify(this.name, options)
   let exists = await Product.exists({ slug: slug })
   let index = 1

@@ -1,37 +1,33 @@
 const User = require("../models/user")
-const asyncHandler = require("express-async-handler")
+const bcrypt = require("bcryptjs")
 
-exports.user_create = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = req.body
-  const user = new User({
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    password,
-  })
-  await user.save()
-  res.json(user)
-})
-
-exports.user_update = asyncHandler(async (req, res) => {
+exports.user_update = async (req, res) => {
   const { userId } = req.params
-  const { firstName, lastName, email, password } = req.body
+  const { first_name, last_name, email } = req.body
+  const password = req.body.password
+    ? bcrypt.hashSync(req.body.password, 12)
+    : null
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { first_name: firstName, last_name: lastName, email, password },
+    {
+      first_name,
+      last_name,
+      email,
+      password,
+    },
     { new: true }
   )
   if (updatedUser === null) {
     return res.status(404).json({ error: "User not found" })
   }
   res.json(updatedUser)
-})
+}
 
-exports.user_delete = asyncHandler(async (req, res) => {
+exports.user_delete = async (req, res) => {
   const { userId } = req.params
   const deletedUser = await User.findByIdAndDelete(userId)
   if (deletedUser === null) {
     return res.status(404).json({ error: "User not found" })
   }
   res.json(deletedUser)
-})
+}

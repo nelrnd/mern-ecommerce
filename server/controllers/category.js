@@ -3,8 +3,10 @@ const Product = require("../models/product")
 const asyncHandler = require("express-async-handler")
 
 exports.category_create = asyncHandler(async (req, res) => {
-  const { name, desc } = req.body
-  const category = new Category({ name, desc })
+  const category = new Category({
+    name: req.body.name,
+    desc: req.body.desc,
+  })
   await category.save()
   res.json(category)
 })
