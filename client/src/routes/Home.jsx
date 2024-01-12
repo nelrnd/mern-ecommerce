@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import axios from "../axios"
 import ProductImage from "../components/ProductImage"
-
-const API_BASE = import.meta.env.VITE_API_BASE
 
 const Home = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(API_BASE + "product")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(err))
+    axios
+      .get("/product")
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.log(err))
   }, [])
 
   return (
     <>
-      <h1>Home</h1>
+      <h1 className="heading">Home</h1>
 
-      {products.length && (
+      {products.length ? (
         <Grid>
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </Grid>
+      ) : (
+        <p className="text-center text-gray-600">No products yet...</p>
       )}
     </>
   )
@@ -38,8 +39,9 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link to={`/product/${slug}`}>
-      <ProductImage image={image} name={name} />
-      <h2 className="text-xl">{name}</h2>
+      <ProductImage src={image} />
+
+      <h2 className="mt-4 font-bold text-xl">{name}</h2>
       <p>${price}</p>
     </Link>
   )

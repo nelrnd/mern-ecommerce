@@ -11,7 +11,7 @@ const categorySchema = new Schema({
 const options = {
   lower: true,
   trim: true,
-  remove: /[*+~.()'"!:@]/g,
+  remove: /[#*+~.()'"!:@]/g,
 }
 
 categorySchema.pre("save", async function (next) {

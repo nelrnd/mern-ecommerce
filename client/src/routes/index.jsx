@@ -4,10 +4,13 @@ import Home from "./Home"
 import Login from "./Login"
 import AdminRoute from "./AdminRoute"
 import Register from "./Register"
+import Catalog from "./Catalog"
 import Product from "./Product"
 import Dashboard from "./Dashboard"
 import ProductForm from "./ProductForm"
 import ProductDelete from "./ProductDelete"
+import CategoryForm from "./CategoryForm"
+import CategoryDelete from "./CategoryDelete"
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/category/:slug",
+        element: <Catalog />,
       },
       {
         path: "/product/:slug",
@@ -48,6 +55,18 @@ const router = createBrowserRouter([
           {
             path: "/product/:slug/delete",
             element: <ProductDelete />,
+          },
+          {
+            path: "/category/create",
+            element: <CategoryForm />,
+          },
+          {
+            path: "/category/:slug/edit",
+            element: <CategoryForm />,
+          },
+          {
+            path: "/category/:slug/delete",
+            element: <CategoryDelete />,
           },
         ],
       },

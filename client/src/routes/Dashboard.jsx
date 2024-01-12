@@ -8,11 +8,16 @@ const Dashboard = () => {
   const { user } = useAuth()
 
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     axios
       .get("/product")
       .then((res) => setProducts(res.data))
+      .catch((err) => console.log(err))
+    axios
+      .get("/category")
+      .then((res) => setCategories(res.data))
       .catch((err) => console.log(err))
   }, [])
 
@@ -39,6 +44,23 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+      <div className="mb-6">
+        <h2 className="mb-2 font-bold text-2xl text-gray-900">
+          Categories{" "}
+          <span className="font-normal text-base text-gray-600">
+            ({categories.length})
+          </span>
+        </h2>
+        <div className="flex flex-col gap-2">
+          <Link to="/category/create" className="btn btn-primary w-fit">
+            Create new
+          </Link>
+          {categories.map((category) => (
+            <CategoryTab key={category._id} category={category} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -61,6 +83,30 @@ const ProductTab = ({ product }) => {
         </Link>
         <Link
           to={`/product/${product.slug}/delete`}
+          className="btn btn-danger btn-small"
+        >
+          Delete
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+const CategoryTab = ({ category }) => {
+  return (
+    <div className="p-3 border border-gray-100 rounded-md flex items-center gap-3">
+      <Link to={`/category/${category.slug}`} className="hover:underline">
+        <h3>{category.name}</h3>
+      </Link>
+      <div className="ml-auto flex items-center gap-3">
+        <Link
+          to={`/category/${category.slug}/edit`}
+          className="btn btn-secondary btn-small"
+        >
+          Edit
+        </Link>
+        <Link
+          to={`/category/${category.slug}/delete`}
           className="btn btn-danger btn-small"
         >
           Delete
