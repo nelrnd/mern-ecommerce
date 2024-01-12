@@ -12,10 +12,12 @@ const Login = () => {
   }
 
   return (
-    <div className="max-w-sm m-auto">
-      <h1 className="font-bold text-3xl mb-8">Login</h1>
+    <div className="max-w-md m-auto p-6 border border-gray-200 rounded-lg">
+      <h1 className="font-bold text-gray-900 text-3xl text-center mb-6">
+        Login
+      </h1>
 
-      <form onSubmit={handleSubmit} className="mb-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <FormControl
           type="email"
           label="Email"
@@ -30,12 +32,12 @@ const Login = () => {
           setValue={setPassword}
         />
 
-        <button className="btn-primary">Login</button>
+        <button className="btn-primary mt-2">Login</button>
       </form>
 
-      <p className="text-slate-500">
+      <p className="text-gray-600 mt-8">
         You don&apos;t have an account yet?{" "}
-        <Link to="/register" className="text-blue-500">
+        <Link to="/register" className="text-blue-500 hover:text-blue-600">
           Register
         </Link>
       </p>
