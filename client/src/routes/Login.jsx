@@ -1,13 +1,24 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { PiWarningFill } from "react-icons/pi"
 import axios from "../axios"
 import FormControl from "../components/FormControl"
+import { useAuth } from "../providers/authProvider"
 
 const Login = () => {
+  const { user, setUser } = useAuth()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true })
+    }
+  }, [user, navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -18,10 +29,7 @@ const Login = () => {
       .post("/auth/login", { email, password })
       .then((res) => {
         const user = res.data.user
-
-        if (user) {
-          console.log(user)
-        }
+        setUser(user)
       })
       .catch((err) => {
         if (err.response) {

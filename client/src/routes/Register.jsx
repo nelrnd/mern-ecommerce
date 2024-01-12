@@ -1,13 +1,24 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "../axios"
 import FormControl from "../components/FormControl"
+import { useAuth } from "../providers/authProvider"
 
 const Register = () => {
+  const { user, setUser } = useAuth()
+
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true })
+    }
+  }, [user, navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -16,7 +27,10 @@ const Register = () => {
 
     axios
       .post("/auth/register", { full_name: fullName, email, password })
-      .then((res) => console.log(res))
+      .then((res) => {
+        const user = res.data.user
+        setUser(user)
+      })
       .catch((err) => {
         if (err.response) {
           const errors = err.response.data.errors
