@@ -40,7 +40,7 @@ const Register = () => {
   }
 
   return (
-    <div className="max-w-md m-auto p-6 border border-gray-200 rounded-lg">
+    <div className="card">
       <h1 className="font-bold text-gray-900 text-3xl text-center mb-6">
         Register
       </h1>
@@ -69,7 +69,7 @@ const Register = () => {
           error={errors["password"]}
         />
 
-        <button className="btn-primary mt-2">Register</button>
+        <button className="btn btn-primary mt-2">Register</button>
       </form>
 
       <p className="text-gray-600 mt-8">

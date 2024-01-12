@@ -5,15 +5,15 @@ import ProductImage from "../components/ProductImage"
 const API_BASE = import.meta.env.VITE_API_BASE
 
 const Product = () => {
-  const { productSlug } = useParams()
+  const { slug } = useParams()
   const [product, setProduct] = useState()
 
   useEffect(() => {
-    fetch(API_BASE + "product/" + productSlug)
+    fetch(API_BASE + "product/" + slug)
       .then((res) => res.json())
       .then((data) => setProduct(data))
       .catch((err) => console.error(err))
-  }, [productSlug])
+  }, [slug])
 
   if (!product) return null
 

@@ -1,25 +1,26 @@
-import { useParams } from "react-router-dom"
-
-const API_BASE = import.meta.env.VITE_API_BASE
+import { useNavigate, useParams } from "react-router-dom"
+import axios from "../axios"
 
 const ProductDelete = () => {
-  const { productSlug } = useParams()
+  const { slug } = useParams()
+  const navigate = useNavigate()
 
   const handleClick = () => {
-    fetch(`${API_BASE}product/${productSlug}`, { method: "DELETE" }).catch(
-      (err) => console.error(err)
-    )
+    axios
+      .delete(`/product/${slug}`)
+      .catch((err) => console.log(err))
+      .finally(() => navigate("/dashboard"))
   }
 
   return (
-    <div className="max-w-sm m-auto">
-      <h1 className="font-bold text-3xl mb-4">Delete product</h1>
+    <div className="card">
+      <h1 className="heading">Delete product</h1>
 
-      <p className="text-slate-500 mb-4">
+      <p className="text-gray-600 mb-4">
         Do you really want to delete this product?
       </p>
 
-      <button onClick={handleClick} className="btn-primary">
+      <button onClick={handleClick} className="btn btn-danger">
         Delete
       </button>
     </div>

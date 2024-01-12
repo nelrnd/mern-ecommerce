@@ -50,8 +50,18 @@ const ProductTab = ({ product }) => {
         </Link>
       </div>
       <div className="flex items-center gap-3">
-        <button className="btn btn-secondary btn-small">Edit</button>
-        <button className="btn btn-danger btn-small">Delete</button>
+        <Link
+          to={`/product/${product.slug}/edit`}
+          className="btn btn-secondary btn-small"
+        >
+          Edit
+        </Link>
+        <Link
+          to={`/product/${product.slug}/delete`}
+          className="btn btn-danger btn-small"
+        >
+          Delete
+        </Link>
       </div>
     </div>
   )
