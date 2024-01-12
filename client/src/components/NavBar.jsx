@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../providers/authProvider"
-import logo from "../assets/seldo.svg"
+import logo from "../assets/seldo.png"
 
 const NavBar = () => {
   const { user, setUser } = useAuth()
