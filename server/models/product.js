@@ -18,7 +18,7 @@ const productSchema = new Schema({
 const options = {
   lower: true,
   trim: true,
-  remove: /[*+~.()'"!:@]/g,
+  remove: /[#*+~.()'"!:@]/g,
 }
 
 productSchema.pre(["save", "updateOne"], async function (next) {

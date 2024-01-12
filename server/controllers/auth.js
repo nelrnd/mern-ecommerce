@@ -74,8 +74,7 @@ exports.login = [
     const SECRET = process.env.SECRET
     const userData = {
       id: user._id,
-      firstName: user.first_name,
-      lastName: user.last_name,
+      name: user.full_name,
       email: user.email,
       role: user.role,
     }

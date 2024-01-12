@@ -19,7 +19,7 @@ const Dashboard = () => {
   return (
     <div className="max-w-5xl m-auto">
       <div className="mb-6">
-        <h1 className="mb-2 font-bold text-4xl text-gray-900">Dashboard</h1>
+        <h1 className="heading text-5xl">Dashboard</h1>
         <p className="text-gray-600">Welcome back {user.name}</p>
       </div>
 
@@ -31,6 +31,9 @@ const Dashboard = () => {
           </span>
         </h2>
         <div className="flex flex-col gap-2">
+          <Link to="/product/create" className="btn btn-primary w-fit">
+            Create new
+          </Link>
           {products.map((product) => (
             <ProductTab key={product._id} product={product} />
           ))}

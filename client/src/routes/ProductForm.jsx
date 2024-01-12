@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import axios from "../axios"
 import FormControl from "../components/FormControl"
 import FileInput from "../components/FileInput"
 
-const API_BASE = import.meta.env.VITE_API_BASE
-
 const ProductForm = () => {
-  const { productSlug } = useParams()
+  const { slug } = useParams()
+  const navigate = useNavigate()
 
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
@@ -14,18 +14,19 @@ const ProductForm = () => {
   const [image, setImage] = useState("")
 
   useEffect(() => {
-    if (productSlug) {
-      fetch(`${API_BASE}product/${productSlug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setName(data.name)
-          setPrice(data.price)
-          setDesc(data.desc)
-          setImage(data.image)
+    if (slug) {
+      axios
+        .get(`/product/${slug}`)
+        .then((res) => {
+          const product = res.data
+          setName(product.name)
+          setPrice(product.price)
+          setDesc(product.desc)
+          setImage(product.image)
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.log(err))
     }
-  }, [productSlug])
+  }, [slug])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -36,37 +37,45 @@ const ProductForm = () => {
     formData.append("desc", desc)
     formData.append("image", image)
 
-    const url = API_BASE + "product/" + (productSlug || "")
-    const method = productSlug ? "PUT" : "POST"
-
-    fetch(url, { method, body: formData })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err))
+    axios[slug ? "put" : "post"](
+      slug ? `/product/${slug}` : "/product",
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    )
+      .then((res) => navigate(`/product/${res.data.slug}`))
+      .catch((err) => console.log(err))
   }
 
   return (
-    <div className="max-w-sm m-auto">
-      <h1 className="font-bold text-3xl mb-8">
-        {productSlug ? "Update product" : "Create product"}
-      </h1>
+    <div className="card">
+      <h1 className="heading">{slug ? "Update product" : "Create product"}</h1>
 
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        className="flex flex-col gap-4"
+      >
         <FormControl label="Name" value={name} setValue={setName} />
+
         <FormControl
           type="number"
           label="Price (in $)"
           value={price}
           setValue={setPrice}
         />
+
         <FormControl
           type="textarea"
           label="Description"
           value={desc}
           setValue={setDesc}
         />
+
         <FileInput label="Image" name="image" setValue={setImage} />
-        <button className="btn-primary">Submit</button>
+
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
   )
