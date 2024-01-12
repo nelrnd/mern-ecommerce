@@ -12,6 +12,7 @@ const ProductForm = () => {
   const [price, setPrice] = useState("")
   const [desc, setDesc] = useState("")
   const [image, setImage] = useState("")
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     if (slug) {
@@ -45,7 +46,13 @@ const ProductForm = () => {
       }
     )
       .then((res) => navigate(`/product/${res.data.slug}`))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        if (err.response) {
+          const errors = err.response.data.errors
+
+          if (errors) setErrors(errors)
+        }
+      })
   }
 
   return (
@@ -57,13 +64,19 @@ const ProductForm = () => {
         encType="multipart/form-data"
         className="flex flex-col gap-4"
       >
-        <FormControl label="Name" value={name} setValue={setName} />
+        <FormControl
+          label="Name"
+          value={name}
+          setValue={setName}
+          error={errors["name"]}
+        />
 
         <FormControl
           type="number"
           label="Price (in $)"
           value={price}
           setValue={setPrice}
+          error={errors["price"]}
         />
 
         <FormControl

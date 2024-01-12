@@ -9,6 +9,7 @@ const CategoryForm = () => {
 
   const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     if (slug) {
@@ -33,7 +34,13 @@ const CategoryForm = () => {
       .then((res) => {
         navigate(`/category/${res.data.slug}`)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        if (err.response) {
+          const errors = err.response.data.errors
+
+          if (errors) setErrors(errors)
+        }
+      })
   }
 
   return (
@@ -43,7 +50,12 @@ const CategoryForm = () => {
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <FormControl label="Name" value={name} setValue={setName} />
+        <FormControl
+          label="Name"
+          value={name}
+          setValue={setName}
+          error={errors["name"]}
+        />
 
         <FormControl
           type="textarea"

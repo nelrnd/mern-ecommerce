@@ -3,9 +3,9 @@ const FileInput = ({ label, value, setValue, ...restProps }) => {
 
   return (
     <label className="block mb-4">
-      <span className="block mb-2">{label}</span>
+      <span className="text-gray-600">{label}</span>
       <input
-        className="w-full"
+        className="w-full mt-1.5"
         type="file"
         onChange={handleChange}
         {...restProps}

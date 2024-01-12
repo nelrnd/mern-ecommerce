@@ -1,6 +1,7 @@
 const Product = require("../models/product")
 const asyncHandler = require("express-async-handler")
 const multer = require("multer")
+const { body, validationResult } = require("express-validator")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -15,7 +16,25 @@ const upload = multer({ storage: storage })
 
 exports.product_create = [
   upload.single("image"),
+  body("name")
+    .notEmpty()
+    .withMessage("Name is required")
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Name must be between 3 and 200 characters"),
+  body("price")
+    .notEmpty()
+    .withMessage("Price is required")
+    .isNumeric()
+    .withMessage("Price must be a number")
+    .isInt({ min: 0 })
+    .withMessage("Price cannot be a negative number"),
   asyncHandler(async (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() })
+    }
+
     const product = new Product({
       name: req.body.name,
       desc: req.body.desc,
@@ -46,7 +65,25 @@ exports.product_detail = asyncHandler(async (req, res) => {
 
 exports.product_update = [
   upload.single("image"),
+  body("name")
+    .notEmpty()
+    .withMessage("Name is required")
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Name must be between 3 and 200 characters"),
+  body("price")
+    .notEmpty()
+    .withMessage("Price is required")
+    .isNumeric()
+    .withMessage("Price must be a number")
+    .isInt({ min: 0 })
+    .withMessage("Price cannot be a negative number"),
   asyncHandler(async (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() })
+    }
+
     const { productSlug } = req.params
     const { name, desc, price, categories } = req.body
     const image = req.file ? req.file.path : undefined
