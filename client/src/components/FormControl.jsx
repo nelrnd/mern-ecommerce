@@ -1,4 +1,10 @@
-const FormControl = ({ type = "text", label, value, setValue }) => {
+const FormControl = ({
+  type = "text",
+  label,
+  value,
+  setValue,
+  ...restProps
+}) => {
   const handleChange = (e) => setValue(e.target.value)
 
   return (
@@ -10,6 +16,7 @@ const FormControl = ({ type = "text", label, value, setValue }) => {
           name={label}
           value={value}
           onChange={handleChange}
+          {...restProps}
         ></textarea>
       ) : (
         <input
@@ -18,6 +25,7 @@ const FormControl = ({ type = "text", label, value, setValue }) => {
           type={type}
           value={value}
           onChange={handleChange}
+          {...restProps}
         />
       )}
     </label>
