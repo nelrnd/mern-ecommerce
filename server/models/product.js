@@ -8,11 +8,8 @@ const productSchema = new Schema({
   desc: { type: String, length: { min: 3 } },
   price: { type: Number, required: true, min: 0 },
   image: { type: String }, // image URL
+  category: { type: Schema.Types.ObjectId, ref: "Category" },
   sizes: { type: [String] },
-  categories: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Category" }],
-    default: [],
-  },
 })
 
 const options = {

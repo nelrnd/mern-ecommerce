@@ -39,7 +39,7 @@ exports.product_create = [
       name: req.body.name,
       desc: req.body.desc,
       price: req.body.price,
-      categories: req.body.categories,
+      category: req.body.category,
       image: req.file ? req.file.path : null,
     })
     await product.save()
@@ -48,14 +48,14 @@ exports.product_create = [
 ]
 
 exports.product_list = asyncHandler(async (req, res) => {
-  const list = await Product.find().populate("categories").exec()
+  const list = await Product.find().populate("category").exec()
   res.json(list)
 })
 
 exports.product_detail = asyncHandler(async (req, res) => {
   const { productSlug } = req.params
   const product = await Product.findOne({ slug: productSlug })
-    .populate("categories")
+    .populate("category")
     .exec()
   if (product === null) {
     return res.status(404).json({ error: "Product not found" })
@@ -85,11 +85,11 @@ exports.product_update = [
     }
 
     const { productSlug } = req.params
-    const { name, desc, price, categories } = req.body
+    const { name, desc, price, category } = req.body
     const image = req.file ? req.file.path : undefined
     const updatedProduct = await Product.findOneAndUpdate(
       { slug: productSlug },
-      { name, desc, price, categories, image },
+      { name, desc, price, category, image },
       { new: true }
     )
     if (updatedProduct === null) {
