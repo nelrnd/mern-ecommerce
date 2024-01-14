@@ -23,6 +23,10 @@
     @apply text-sm font-normal px-3 py-1.5;
   }
 
+  .btn-icon {
+    @apply w-9 h-9 grid place-content-center text-gray-900 text-2xl rounded-lg hover:bg-gray-100;
+  }
+
   .card {
     @apply max-w-md m-auto p-6 border border-gray-200 rounded-lg;
   }
