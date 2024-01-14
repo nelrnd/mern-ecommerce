@@ -1,37 +1,40 @@
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import axios from "../axios"
+import useFetch from "../hooks/useFetch"
 import ProductImage from "../components/ProductImage"
+import CategoryCard from "../components/CategoryCard"
 
 const Home = () => {
-  const [products, setProducts] = useState([])
+  const categories = useFetch("/category")
+  const products = useFetch("/product")
 
-  useEffect(() => {
-    axios
-      .get("/product")
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err))
-  }, [])
+  const selectedCategories = ["Hoodies", "T-Shirts"]
+
+  if (!categories || !products) return null
 
   return (
     <>
-      <h1 className="heading">Home</h1>
+      <h2 className="heading">Shop by category</h2>
+      <Grid cols={2}>
+        {selectedCategories.map((s) => (
+          <CategoryCard
+            key={s}
+            category={categories.find((c) => c.name === s)}
+          />
+        ))}
+      </Grid>
 
-      {products.length ? (
-        <Grid>
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </Grid>
-      ) : (
-        <p className="text-center text-gray-600">No products yet...</p>
-      )}
+      <h2 className="heading">Latest</h2>
+      <Grid cols="4">
+        {products.slice(0, 4).map((p) => (
+          <ProductCard key={p._id} product={p} />
+        ))}
+      </Grid>
     </>
   )
 }
 
-const Grid = ({ children }) => (
-  <div className="grid grid-cols-3 gap-4 gap-y-8">{children}</div>
+const Grid = ({ cols, children }) => (
+  <div className={`mb-8 grid grid-cols-${cols} gap-4 gap-y-8`}>{children}</div>
 )
 
 const ProductCard = ({ product }) => {
