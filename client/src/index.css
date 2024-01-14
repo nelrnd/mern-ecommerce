@@ -34,4 +34,52 @@
   .heading {
     @apply font-bold text-gray-900 text-3xl mb-3;
   }
+
+  .NavigationMenuLink {
+    @apply block py-2 px-3 text-gray-500 hover:text-gray-900 hover:underline;
+  }
+
+  .NavigationMenuTrigger {
+    @apply NavigationMenuLink hover:no-underline flex items-center gap-1;
+  }
+
+  .CaretDown {
+    @apply text-gray-900 text-sm;
+    transition: transform 250ms ease;
+  }
+  [data-state="open"] > .CaretDown {
+    transform: rotate(-180deg);
+  }
+
+  .NavigationMenuViewport {
+    @apply bg-white p-4 rounded-md border border-gray-200 shadow-lg;
+  }
+  .NavigationMenuViewport[data-state="open"] {
+    animation: scaleIn 200ms ease;
+  }
+  .NavigationMenuViewport[data-state="closed"] {
+    animation: scaleOut 200ms ease;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: rotateX(-30deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: rotateX(0deg) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotateX(-10deg) scale(0.95);
+  }
 }

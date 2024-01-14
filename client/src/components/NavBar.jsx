@@ -8,39 +8,112 @@ import {
 } from "react-icons/pi"
 import { useAuth } from "../providers/authProvider"
 import logo from "../assets/seldo.svg"
+import * as NavigationMenu from "@radix-ui/react-navigation-menu"
+import useFetch from "../hooks/useFetch"
+
+const brands = [
+  {
+    _id: 1,
+    slug: "nike",
+    name: "Nike",
+  },
+  {
+    _id: 2,
+    slug: "arcteryx",
+    name: "Arc'Teryx",
+  },
+  {
+    _id: 3,
+    slug: "stussy",
+    name: "Stussy",
+  },
+  {
+    _id: 4,
+    slug: "lacoste",
+    name: "Lacoste",
+  },
+]
 
 const NavBar = () => {
   const { user, setUser } = useAuth()
+
+  const categories = useFetch("/category")
 
   const logout = () => {
     setUser(null)
   }
 
   return (
-    <nav className="px-12 border-b border-slate-200">
-      <div className="h-24 flex justify-between items-center">
+    <nav className="relative z-50 px-12 border-b border-slate-200">
+      <div className="h-20 flex justify-between items-center">
         <Link to="/">
           <img src={logo} alt="Seldo" className="h-6" />
         </Link>
 
-        <ul className="flex items-center gap-6">
-          <li className="flex items-center gap-1">
-            Categories
-            <PiCaretDownBold className="text-gray-400" />
-          </li>
-          <li className="flex items-center gap-1">
-            Brands
-            <PiCaretDownBold className="text-gray-400" />
-          </li>
-          <li>
-            <Link to="/catalog">Latest</Link>
-          </li>
-          {user && user.isAdmin && (
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-          )}
-        </ul>
+        <NavigationMenu.Root className="relative" delayDuration={150}>
+          <NavigationMenu.List className="flex items-center gap-3">
+            {categories && (
+              <NavigationMenu.Item>
+                <NavigationMenu.Trigger className="NavigationMenuTrigger">
+                  Categories
+                  <PiCaretDownBold className="CaretDown" aria-hidden />
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <ul className="grid grid-flow-col grid-rows-2">
+                    {categories.map((c) => (
+                      <li key={c._id}>
+                        <Link
+                          className="NavigationMenuLink"
+                          to={`/category/${c.slug}`}
+                        >
+                          {c.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenu.Content>
+              </NavigationMenu.Item>
+            )}
+            {brands && (
+              <NavigationMenu.Item>
+                <NavigationMenu.Trigger className="NavigationMenuTrigger">
+                  Brands
+                  <PiCaretDownBold className="CaretDown" aria-hidden />
+                </NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <ul className="grid grid-flow-col grid-rows-2">
+                    {brands.map((b) => (
+                      <li key={b._id}>
+                        <Link
+                          className="NavigationMenuLink"
+                          to={`/brand/${b.slug}`}
+                        >
+                          {b.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenu.Content>
+              </NavigationMenu.Item>
+            )}
+            <NavigationMenu.Item>
+              <Link className="NavigationMenuLink" to="/latest">
+                Latest
+              </Link>
+            </NavigationMenu.Item>
+            {user && user.isAdmin && (
+              <NavigationMenu.Item>
+                <Link className="NavigationMenuLink" to="/dashboard">
+                  Dashboard
+                </Link>
+              </NavigationMenu.Item>
+            )}
+          </NavigationMenu.List>
+
+          <div className="absolute w-full top-full mt-2.5">
+            <NavigationMenu.Viewport className="NavigationMenuViewport" />
+          </div>
+        </NavigationMenu.Root>
 
         <ul className="flex items-center gap-3">
           <li>
