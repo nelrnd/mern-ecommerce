@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "../axios"
 import FormControl from "../components/FormControl"
-import { useAuth } from "../providers/authProvider"
+import { useAuth } from "../providers/AuthProvider"
 
 const Register = () => {
   const { user, setUser } = useAuth()

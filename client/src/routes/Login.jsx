@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { PiWarningFill } from "react-icons/pi"
 import axios from "../axios"
 import FormControl from "../components/FormControl"
-import { useAuth } from "../providers/authProvider"
+import { useAuth } from "../providers/AuthProvider"
 
 const Login = () => {
   const { user, setUser } = useAuth()

@@ -6,10 +6,11 @@ import {
   PiBag,
   PiUser,
 } from "react-icons/pi"
-import { useAuth } from "../providers/authProvider"
+import { useAuth } from "../providers/AuthProvider"
 import logo from "../assets/seldo.svg"
 import * as NavigationMenu from "@radix-ui/react-navigation-menu"
 import useFetch from "../hooks/useFetch"
+import { useCart } from "../providers/CartProvider"
 
 const brands = [
   {
@@ -36,6 +37,7 @@ const brands = [
 
 const NavBar = () => {
   const { user, setUser } = useAuth()
+  const { openCart } = useCart()
 
   const categories = useFetch("/category")
 
@@ -44,7 +46,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="relative z-50 px-12 border-b border-slate-200">
+    <nav className="relative z-40 px-12 border-b border-slate-200">
       <div className="h-20 flex justify-between items-center">
         <Link to="/">
           <img src={logo} alt="Seldo" className="h-6" />
@@ -127,7 +129,7 @@ const NavBar = () => {
             </Link>
           </li>
           <li>
-            <button className="btn-icon">
+            <button onClick={openCart} className="btn-icon">
               <PiBag />
             </button>
           </li>
